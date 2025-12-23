@@ -1,129 +1,76 @@
 Smart CO₂ Monitoring and Capture Simulation using MOFs
-📌 Project Overview
+Project Overview
 
 The Smart CO₂ Monitoring and Capture Simulation using MOFs is a software-based web application designed to raise awareness about carbon dioxide (CO₂) levels in different environments and to simulate how MOF-based carbon capture systems can help reduce CO₂ at scale.
 
 This project focuses on visualization, education, and decision support, not on physical CO₂ capture or real-time sensor data.
 
-🎯 Problem Statement
+Problem Statement
 
 Increasing CO₂ levels are a major contributor to climate change.
 However, most people:
-
 do not understand what CO₂ levels mean,
-
 cannot visualize the impact of carbon capture technologies,
-
 are unaware of emerging solutions like Metal-Organic Frameworks (MOFs).
 
 There is a need for a simple, transparent, and educational tool that helps users understand:
-
 CO₂ concentration levels in different environments
-
 the potential impact of MOF-based capture systems
 
-💡 Solution Approach
-
+Solution Approach
 This application provides:
-
-predefined environmental scenarios
-
-average CO₂ concentration values (ppm)
-
-a simulation of MOF-based CO₂ capture using percentage efficiency
-
-clear visual comparison of CO₂ levels before and after capture
-
+Predefined environmental scenarios
+Average CO₂ concentration values (ppm)
+A simulation of MOF-based CO₂ capture using percentage efficiency
+Clear visual comparison of CO₂ levels before and after capture
 The system is intentionally kept simple and realistic, avoiding over-engineering or false claims.
-
-👥 Target Users
-
+ Target Users:
 General public interested in environmental awareness
-
 Students and educators
-
 Institutions (schools, offices, communities) exploring sustainability concepts
 
-⚙️ Key Features
+ Key Features:
+ Environment-based CO₂ selection (classroom, traffic, residential, industrial)
+ Display of average CO₂ concentration values (ppm)
+ Simulation of MOF-based CO₂ capture using fixed efficiency
+ Visual comparison of CO₂ levels before and after capture
+ Educational explanations for every result
 
-🌍 Environment-based CO₂ selection (classroom, traffic, residential, industrial)
-
-📊 Display of average CO₂ concentration values (ppm)
-
-🧪 Simulation of MOF-based CO₂ capture using fixed efficiency
-
-📉 Visual comparison of CO₂ levels before and after capture
-
-📘 Educational explanations for every result
-
-🧭 Application Flow
-
+ Application Flow:
 User opens the web application
-
 Selects an environment type
-
 System retrieves average CO₂ level
-
 CO₂ level is displayed to the user
-
 User initiates MOF capture simulation
-
 System applies MOF efficiency logic
-
 Updated CO₂ values are calculated
-
 Results are visualized using charts
-
 Impact explanation is shown
+For detailed logic, refer to FLOW.md.
 
-📄 For detailed logic, refer to FLOW.md.
-
-🔌 API Overview
-
+ API Overview:
 The backend provides simple REST APIs to:
+Fetch base CO₂ levels for environments
+Simulate MOF-based CO₂ capture
+Expose MOF efficiency configuration
+Full API documentation is available in API.md.
 
-fetch base CO₂ levels for environments
-
-simulate MOF-based CO₂ capture
-
-expose MOF efficiency configuration
-
-📄 Full API documentation is available in API.md.
-
-🧪 About MOFs (Metal-Organic Frameworks)
-
+ About MOFs (Metal-Organic Frameworks):
 MOFs are advanced porous materials researched for applications such as:
-
 gas storage
-
 gas separation
-
 carbon capture
-
-⚠️ Important Clarification
+Important Clarification
 This project:
-
 does NOT simulate chemical reactions
-
 does NOT claim real-world capture
-
 uses generalized efficiency values from literature for educational purposes
-
-🚫 What This Project Does NOT Do
-
-To avoid misinformation, this application:
-
 does not capture CO₂ physically
-
-does not use real-time sensor data
-
 does not integrate hardware
-
 does not model chemical processes
-
 It is a software simulation and visualization tool only.
 
-🛠️ Tech Stack (Planned)
+ Tech Stack:
 
 Frontend: React (Web UI & visualization)
 
