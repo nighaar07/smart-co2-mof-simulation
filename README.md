@@ -155,6 +155,71 @@ When hardware requirements are met, the system can function as a **full‑fledge
 - Git & GitHub
 
 ---
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to frontend folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+
+The application will run at:
+http://localhost:3000
+
+The dashboard will load with simulated live CO₂ monitoring.
+
+
+# Navigate to backend folder
+cd backend
+
+# Install dependencies (if applicable)
+npm install   # or pip install -r requirements.txt
+
+# Start the backend server
+npm start     # or python app.py
+
+Backend APIs run locally (default: http://localhost:5000)
+
+APIs provide:
+
+Base CO₂ values per environment
+
+MOF capture simulation
+
+Efficiency configuration
+
+
+## 🔧 Environment Configuration
+This project does not require a .env file in its current demo version
+
+All simulation values are predefined for transparency
+
+Future deployments can introduce environment variables for:
+
+API keys
+
+Sensor endpoints
+
+Cloud configurations
+
+## ▶️ How to Use the Application
+Open the frontend in a browser
+
+Select an environment type
+
+Observe simulated live CO₂ readings
+
+Enable live mode (optional)
+
+Run MOF capture simulation
+
+View reduction metrics and charts
+
+Observe prediction trends and anomaly alerts
 
 ## 🏆 Hackathon Note
 
