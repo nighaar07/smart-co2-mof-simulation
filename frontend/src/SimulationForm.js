@@ -80,15 +80,13 @@ function SimulationForm() {
 
   return (
     <div style={pageStyle}>
-      <h1 style={{ textAlign: "center", marginBottom: 30 }}>
-  🌍 Smart CO₂ Monitoring & MOF‑Based Capture Dashboard
-</h1>
+      <h1 style={{ textAlign: "center", marginBottom: 32 }}>
+        🌍 Smart CO₂ Monitoring & Capture Using MOFs
+      </h1>
 
-
-      {/* DASHBOARD GRID */}
       <div style={dashboardGrid}>
 
-        {/* LEFT PANEL — CONTROLS */}
+        {/* 🟦 TOP-LEFT — CONTROLS */}
         <motion.div style={glassCard}>
           <h2>⚙️ Simulation Controls</h2>
 
@@ -107,96 +105,67 @@ function SimulationForm() {
             {Object.keys(MOF_DATA).map(m => <option key={m}>{m}</option>)}
           </select>
 
-          {/* 🌡️ Environmental Controls */}
-<div style={{ marginTop: 20 }}>
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div>
+              <label>Temperature: {temperature}°C</label>
+              <input type="range" min="-5" max="50" value={temperature}
+                onChange={e => setTemperature(Number(e.target.value))} />
+            </div>
 
-    {/* Temperature */}
-    <div>
-      <label style={{ fontWeight: "bold" }}>
-        Temperature: {temperature}°C
-      </label>
-      <input
-        type="range"
-        min="5"
-        max="50"
-        value={temperature}
-        onChange={e => setTemperature(Number(e.target.value))}
-        style={{ width: "100%" }}
-      />
-    </div>
+            <div>
+              <label>Humidity: {humidity}%</label>
+              <input type="range" min="20" max="100" value={humidity}
+                onChange={e => setHumidity(Number(e.target.value))} />
+            </div>
+          </div>
 
-    {/* Humidity */}
-    <div>
-      <label style={{ fontWeight: "bold" }}>
-        Humidity: {humidity}%
-      </label>
-      <input
-        type="range"
-        min="20"
-        max="100"
-        value={humidity}
-        onChange={e => setHumidity(Number(e.target.value))}
-        style={{ width: "100%" }}
-      />
-    </div>
-  </div>
-
-  {/* CO₂ Concentration */}
-  <div style={{ marginTop: 20 }}>
-    <label style={{ fontWeight: "bold" }}>
-      CO₂ Concentration (ppm)
-    </label>
-    <input
-      type="number"
-      value={co2ppm}
-      onChange={e => setCo2ppm(Number(e.target.value))}
-      style={{
-        ...inputStyle,
-        marginTop: 8,
-        background: "#fff",
-        color: "#000"
-      }}
-    />
-  </div>
-</div>
-
+          <label style={{ marginTop: 16 }}>CO₂ Concentration (ppm)</label>
+          <input
+            type="number"
+            value={co2ppm}
+            onChange={e => setCo2ppm(Number(e.target.value))}
+            style={{ ...inputStyle, background: "#fff", color: "#000" }}
+          />
 
           <motion.button
             onClick={handleSubmit}
             disabled={loading}
-            style={{ ...buttonStyle, marginTop: 20 }}
+            style={{ ...buttonStyle, marginTop: 16 }}
           >
             {loading ? "Simulating..." : "Run Simulation"}
           </motion.button>
         </motion.div>
 
-        {/* RIGHT PANEL — MONITORING */}
+        {/* 🟩 TOP-RIGHT — RESULTS */}
         <motion.div style={glassCard}>
-          <h2>📡 Live Monitoring</h2>
+          <h2>📡 Live Results</h2>
+          {result ? (
+            <>
+              <CO2EfficiencyRing value={result.reduction_percentage} />
+              <CO2Stats result={result} />
+            </>
+          ) : <p style={{ opacity: 0.6 }}>Run simulation to view results</p>}
+        </motion.div>
 
-          <div style={{ marginBottom: 12 }}>
-            <b>Coordinates:</b><br />
-            Lat: {location.lat ?? "N/A"} | Lng: {location.lng ?? "N/A"}
-          </div>
-
+        {/* 🟨 BOTTOM-LEFT — MAP */}
+        <motion.div style={glassCard}>
+          <h2>🗺️ Sensor Coverage Map</h2>
+          <p>{location.name}</p>
           {location.lat && (
             <iframe
               title="map"
               width="100%"
-              height="200"
+              height="220"
               style={{ border: 0, borderRadius: 10 }}
               src={`https://www.google.com/maps?q=${location.lat},${location.lng}&z=10&output=embed`}
             />
           )}
+        </motion.div>
 
-          {result && (
-            <>
-              <CO2EfficiencyRing value={result.reduction_percentage} />
-              <CO2Stats result={result} />
-              <CO2Charts result={result} />
-            </>
-          )}
+        {/* 🟪 BOTTOM-RIGHT — CHARTS */}
+        <motion.div style={glassCard}>
+          <h2>📊 CO₂ Analytics</h2>
+          {result ? <CO2Charts result={result} /> : <p style={{ opacity: 0.6 }}>Charts appear after simulation</p>}
         </motion.div>
 
       </div>
@@ -214,9 +183,10 @@ const pageStyle = {
 
 const dashboardGrid = {
   display: "grid",
-  gridTemplateColumns: "1fr 1.2fr",
+  gridTemplateColumns: "1fr 1.3fr",
+  gridTemplateRows: "auto auto",
   gap: 24,
-  maxWidth: 1200,
+  maxWidth: 1300,
   margin: "auto"
 };
 
