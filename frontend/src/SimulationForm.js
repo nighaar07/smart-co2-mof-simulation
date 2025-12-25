@@ -36,29 +36,41 @@ const MOF_DATA = {
 
 function SimulationForm() {
   const [liveMode, setLiveMode] = useState(false);
-
   const [environment, setEnvironment] = useState("City");
   const [location, setLocation] = useState(LOCATION_DATA.City[0]);
   const [co2ppm, setCo2ppm] = useState(LOCATION_DATA.City[0].ppm);
   const [mof, setMof] = useState("MOF‑74");
   const [temperature, setTemperature] = useState(25);
   const [humidity, setHumidity] = useState(50);
+  const [lastUpdated, setLastUpdated] = useState(null);
+const [aiPrediction, setAiPrediction] = useState(null);
+const [anomaly, setAnomaly] = useState(false);
+
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
   /* 🔴 FAKE LIVE SENSOR ENGINE */
   useEffect(() => {
-    if (!liveMode) return;
+  if (!liveMode) return;
 
-    const interval = setInterval(() => {
-      setCo2ppm(prev => Math.max(300, prev + (Math.random() * 10 - 5)));
-      setTemperature(prev => Math.max(0, prev + (Math.random() * 2 - 1)));
-      setHumidity(prev => Math.max(20, Math.min(100, prev + (Math.random() * 4 - 2))));
-    }, 2000);
+  const interval = setInterval(() => {
+    const drift = Math.floor(Math.random() * 20 - 10);
+    const newCO2 = Math.max(300, co2ppm + drift);
 
-    return () => clearInterval(interval);
-  }, [liveMode]);
+    setCo2ppm(newCO2);
+    setLastUpdated(new Date().toLocaleTimeString());
+
+    // Fake AI prediction
+    setAiPrediction(newCO2 + Math.floor(Math.random() * 30));
+
+    // Simple anomaly detection
+    setAnomaly(newCO2 > 520);
+  }, 2000);
+
+  return () => clearInterval(interval);
+}, [liveMode, co2ppm]);
+
 
   const handleEnvironmentChange = (env) => {
     const loc = LOCATION_DATA[env][0];
@@ -95,7 +107,16 @@ function SimulationForm() {
   };
 
   return (
-    <div style={pageStyle}>
+    <div
+  style={{
+    ...pageStyle,
+    border:
+      co2ppm > 500
+        ? "2px solid #ff4d4d"
+        : "2px solid transparent"
+  }}
+>
+
       <h1 style={{ textAlign: "center", marginBottom: 32 }}>
         🌍 Smart CO₂ Monitoring & Capture Using MOFs
       </h1>
@@ -191,10 +212,27 @@ function SimulationForm() {
         </motion.div>
 
         {/* 🟪 BOTTOM-RIGHT — CHARTS */}
-        <motion.div style={glassCard}>
-          <h2>📊 CO₂ Analytics</h2>
-          {result ? <CO2Charts result={result} /> : <p style={{ opacity: 0.6 }}>Charts appear after simulation</p>}
-        </motion.div>
+<motion.div style={glassCard}>
+  <h2>
+    📊 CO₂ Analytics{" "}
+    {anomaly && (
+      <span style={{ color: "#ff4d4d", marginLeft: 8 }}>
+        ⚠️ Anomaly Detected
+      </span>
+    )}
+  </h2>
+
+  {result ? (
+    <CO2Charts
+      result={result}
+      aiPrediction={aiPrediction}
+      anomaly={anomaly}
+    />
+  ) : (
+    <p style={{ opacity: 0.6 }}>Charts appear after simulation</p>
+  )}
+</motion.div>
+
 
       </div>
     </div>
