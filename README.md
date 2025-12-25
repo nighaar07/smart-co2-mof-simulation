@@ -155,42 +155,44 @@ When hardware requirements are met, the system can function as a **full‑fledge
 - Git & GitHub
 
 ---
-# Clone the repository
-git clone <repository-url>
+## Set Up Instructions
+**Clone the repository**
+git clone <https://github.com/nighaar07/smart-co2-mof-simulation>
 
-# Navigate to frontend folder
+## Navigate to frontend folder
 cd frontend
 
-# Install dependencies
+## Install dependencies
 npm install
 
-# Start the development server
+## Start the development server
 npm start
 
-The application will run at:
-http://localhost:3000
+-The application will run at:
+-http://localhost:3000
 
-The dashboard will load with simulated live CO₂ monitoring.
+-The dashboard will load with simulated live CO₂ monitoring.
 
 
-# Navigate to backend folder
+## Navigate to backend folder
 cd backend
 
-# Install dependencies (if applicable)
-npm install   # or pip install -r requirements.txt
+## Install dependencies (if applicable)
+npm install   
+or pip install -r requirements.txt
 
-# Start the backend server
-npm start     # or python app.py
+## Start the backend server
+ python app.py or npm start   
 
-Backend APIs run locally (default: http://localhost:5000)
+-Backend APIs run locally (default: http://localhost:5000)
 
-APIs provide:
+**APIs provide:**
 
-Base CO₂ values per environment
+-Base CO₂ values per environment
 
-MOF capture simulation
+-MOF capture simulation
 
-Efficiency configuration
+-Efficiency configuration
 
 
 ## 🔧 Environment Configuration
