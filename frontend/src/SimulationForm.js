@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import CO2Charts from "./CO2Charts";
 import CO2Stats from "./CO2Stats";
@@ -35,14 +35,30 @@ const MOF_DATA = {
 };
 
 function SimulationForm() {
+  const [liveMode, setLiveMode] = useState(false);
+
   const [environment, setEnvironment] = useState("City");
   const [location, setLocation] = useState(LOCATION_DATA.City[0]);
   const [co2ppm, setCo2ppm] = useState(LOCATION_DATA.City[0].ppm);
   const [mof, setMof] = useState("MOF‑74");
   const [temperature, setTemperature] = useState(25);
   const [humidity, setHumidity] = useState(50);
+
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  /* 🔴 FAKE LIVE SENSOR ENGINE */
+  useEffect(() => {
+    if (!liveMode) return;
+
+    const interval = setInterval(() => {
+      setCo2ppm(prev => Math.max(300, prev + (Math.random() * 10 - 5)));
+      setTemperature(prev => Math.max(0, prev + (Math.random() * 2 - 1)));
+      setHumidity(prev => Math.max(20, Math.min(100, prev + (Math.random() * 4 - 2))));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [liveMode]);
 
   const handleEnvironmentChange = (env) => {
     const loc = LOCATION_DATA[env][0];
@@ -69,7 +85,7 @@ function SimulationForm() {
       efficiency = Math.max(15, Math.min(efficiency, 45));
 
       setResult({
-        co2_before_capture: co2ppm,
+        co2_before_capture: Math.round(co2ppm),
         co2_after_capture: Math.round(co2ppm * (1 - efficiency / 100)),
         reduction_percentage: efficiency
       });
@@ -90,39 +106,51 @@ function SimulationForm() {
         <motion.div style={glassCard}>
           <h2>⚙️ Simulation Controls</h2>
 
-          <label>Environment</label>
-          <select value={environment} onChange={e => handleEnvironmentChange(e.target.value)} style={inputStyle}>
+          {/* 🔴 Live Sensor Toggle */}
+          <label style={{ fontWeight: "" }}>
+            <input
+              type="checkbox"
+              checked={liveMode}
+              onChange={() => setLiveMode(!liveMode)}
+              style={{ marginRight: 9 }}
+            />
+            Live Sensor Mode
+          </label>
+
+          <label>  Environment</label>
+          <select disabled={liveMode} value={environment} onChange={e => handleEnvironmentChange(e.target.value)} style={inputStyle}>
             {Object.keys(LOCATION_DATA).map(env => <option key={env}>{env}</option>)}
           </select>
 
           <label>Location</label>
-          <select value={location.name} onChange={e => handleLocationChange(e.target.value)} style={inputStyle}>
+          <select disabled={liveMode} value={location.name} onChange={e => handleLocationChange(e.target.value)} style={inputStyle}>
             {LOCATION_DATA[environment].map(loc => <option key={loc.name}>{loc.name}</option>)}
           </select>
 
           <label>MOF Material</label>
-          <select value={mof} onChange={e => setMof(e.target.value)} style={inputStyle}>
+          <select disabled={liveMode} value={mof} onChange={e => setMof(e.target.value)} style={inputStyle}>
             {Object.keys(MOF_DATA).map(m => <option key={m}>{m}</option>)}
           </select>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
-              <label>Temperature: {temperature}°C</label>
-              <input type="range" min="-5" max="50" value={temperature}
+              <label>Temperature: {temperature.toFixed(1)}°C</label>
+              <input disabled={liveMode} type="range" min="-5" max="50" value={temperature}
                 onChange={e => setTemperature(Number(e.target.value))} />
             </div>
 
             <div>
-              <label>Humidity: {humidity}%</label>
-              <input type="range" min="20" max="100" value={humidity}
+              <label>Humidity: {humidity.toFixed(1)}%</label>
+              <input disabled={liveMode} type="range" min="20" max="100" value={humidity}
                 onChange={e => setHumidity(Number(e.target.value))} />
             </div>
           </div>
 
-          <label style={{ marginTop: 16 }}>CO₂ Concentration (ppm)</label>
+          <label>CO₂ Concentration (ppm)</label>
           <input
+            disabled={liveMode}
             type="number"
-            value={co2ppm}
+            value={Math.round(co2ppm)}
             onChange={e => setCo2ppm(Number(e.target.value))}
             style={{ ...inputStyle, background: "#fff", color: "#000" }}
           />
@@ -173,7 +201,7 @@ function SimulationForm() {
   );
 }
 
-/* STYLES */
+/* STYLES — UNCHANGED */
 const pageStyle = {
   minHeight: "100vh",
   padding: 30,
