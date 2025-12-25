@@ -107,16 +107,7 @@ const [anomaly, setAnomaly] = useState(false);
   };
 
   return (
-    <div
-  style={{
-    ...pageStyle,
-    border:
-      co2ppm > 500
-        ? "2px solid #ff4d4d"
-        : "2px solid transparent"
-  }}
->
-
+    <div style={pageStyle}>
       <h1 style={{ textAlign: "center", marginBottom: 32 }}>
         🌍 Smart CO₂ Monitoring & Capture Using MOFs
       </h1>
@@ -126,6 +117,23 @@ const [anomaly, setAnomaly] = useState(false);
         {/* 🟦 TOP-LEFT — CONTROLS */}
         <motion.div style={glassCard}>
           <h2>⚙️ Simulation Controls</h2>
+          {liveMode && (
+  <motion.div
+    animate={{ opacity: [1, 0.3, 1] }}
+    transition={{ repeat: Infinity, duration: 1 }}
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      marginBottom: 12,
+      color: "#ff4d4d",
+      fontWeight: "bold"
+    }}
+  >
+    🔴 LIVE
+  </motion.div>
+)}
+
 
           {/* 🔴 Live Sensor Toggle */}
           <label style={{ fontWeight: "" }}>
@@ -188,6 +196,12 @@ const [anomaly, setAnomaly] = useState(false);
         {/* 🟩 TOP-RIGHT — RESULTS */}
         <motion.div style={glassCard}>
           <h2>📡 Live Results</h2>
+          {lastUpdated && (
+  <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 8 }}>
+    ⏱ Last updated: {lastUpdated}
+  </div>
+)}
+
           {result ? (
             <>
               <CO2EfficiencyRing value={result.reduction_percentage} />
@@ -217,7 +231,7 @@ const [anomaly, setAnomaly] = useState(false);
     📊 CO₂ Analytics{" "}
     {anomaly && (
       <span style={{ color: "#ff4d4d", marginLeft: 8 }}>
-        ⚠️ Anomaly Detected
+                                  ⚠️ Anomaly Detected
       </span>
     )}
   </h2>
