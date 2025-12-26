@@ -1,14 +1,15 @@
 # smart_co2_server.py
-# Backend server for Smart CO₂ Monitoring & MOF Capture Simulation
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from co2_mof_constants import ENVIRONMENT_CO2_DATA, MOF_CAPTURE_EFFICIENCY_PERCENT
 
 app = Flask(__name__)
+CORS(app)
+
 @app.route("/")
 def home():
     return "Smart CO₂ Monitoring & MOF Capture Simulation API is running"
-
 
 @app.route("/api/environment/<environment_name>", methods=["GET"])
 def fetch_environment_co2(environment_name):
@@ -23,7 +24,6 @@ def fetch_environment_co2(environment_name):
         "description": environment["reason"],
         "unit": "ppm"
     })
-
 
 @app.route("/api/simulate-mof-capture", methods=["POST"])
 def simulate_mof_capture():
@@ -43,7 +43,6 @@ def simulate_mof_capture():
         "message": "MOF-based CO₂ capture simulation completed"
     })
 
-
 @app.route("/api/mof-details", methods=["GET"])
 def mof_details():
     return jsonify({
@@ -51,6 +50,7 @@ def mof_details():
         "note": "Efficiency represents generalized MOF performance for simulation purposes"
     })
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
+
