@@ -12,7 +12,7 @@ function CO2Charts({ result }) {
   const beforeHeight = (result.co2_before_capture / maxPPM) * 180;
   const afterHeight = (result.co2_after_capture / maxPPM) * 180;
 
-  /* 🧠 Fake AI prediction (safe, chart-only) */
+  /* 🧠 Fake AI prediction logic based (safe, chart-only) */
   const aiPrediction =
     result.co2_before_capture + Math.floor(Math.random() * 40 - 10);
 
